@@ -12,7 +12,6 @@ import matplotlib as plt
 #Import models from scikit learn module:
 from sklearn.linear_model import LogisticRegression
 from sklearn.cross_validation import KFold   #For K-fold cross validation
-from sklearn.ensemble import RandomForestClassifier
 from sklearn import metrics
 from sklearn.preprocessing import LabelEncoder
 
@@ -64,11 +63,6 @@ df['LoanAmount'].fillna(df['LoanAmount'].mean(), inplace=True)  #replace all the
 df['Self_Employed'].fillna('No',inplace=True) #replace all the null values with mode
 df['Credit_History'].fillna(1,inplace=True) #replace all the null values with mode
 
-#table = df.pivot_table(values='LoanAmount', index='Self_Employed' ,columns='Education', aggfunc=np.median)
-# Define function to return value of this pivot_table
-#def fage(x):
-# return table.loc[x['Self_Employed'],x['Education']]
-# Replace missing values
 
 
 df['LoanAmount'].fillna(360, inplace=True)
@@ -99,13 +93,4 @@ model = LogisticRegression()
 predictor_var = ['Credit_History']
 predictions = classification_model(model, df,predictor_var,outcome_var)
 
-
-model = RandomForestClassifier(n_estimators=100) #we find this overfitting the training data. Play on with the hyperparameters to get the best cross validation accuracy
-predictor_var = ['Gender', 'Married', 'Dependents', 'Education','Self_Employed', 'Loan_Amount_Term', 'Credit_History', 'Property_Area','LoanAmount_log','TotalIncome_log']
-classification_model(model, df,predictor_var,outcome_var)
-
-
-#Create a series with feature importances:
-featimp = pd.Series(model.feature_importances_, index=predictor_var).sort_values(ascending=False)
-print featimp
 
